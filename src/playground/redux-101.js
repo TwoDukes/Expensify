@@ -1,5 +1,33 @@
 import {createStore} from 'redux';
 
+//
+//Action Generators
+//
+
+const incrementCount = ({incrementBy = 1} = {}) => ({
+  type: 'INCREMENT',
+  incrementBy
+});
+
+const decrementCount = ({ decrementBy = 1} = {}) => ({
+  type: 'DECREMENT',
+  decrementBy
+});
+
+const setCount = ({ count } = {}) => {
+  if(isNaN(count)) throw new Error('setCount must be passed a number')
+  return {type: 'SET',
+          count
+          }
+};
+
+const resetCount = () => ({
+  type: 'RESET'
+});
+
+//
+// Store setup
+//
 const store = createStore((state = {count: 0}, action) => {
   switch(action.type){
 
@@ -39,23 +67,16 @@ const unsubscribe = store.subscribe(() => {
 /////ACTIONS - START/////
 
 //Increment the count
-store.dispatch({
-  type: 'INCREMENT',
-  incrementBy: 5
-});
+store.dispatch(incrementCount({incrementBy: 5}));
+
 
 //Decrement the count
-store.dispatch({
-  type: 'DECREMENT',
-  decrementBy: 21
-});
+store.dispatch(decrementCount({decrementBy: 26}));
 
 //Reset the count
-store.dispatch({type: 'RESET'});
+store.dispatch(resetCount());
 
-store.dispatch({
-  type: 'SET',
-  count: 123
-})
+//set the count
+store.dispatch(setCount({count: 56}));
 
 /////ACTIONS - END/////
