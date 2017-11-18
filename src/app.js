@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 //Router import
 import AppRouter from './routers/AppRouter';
 //Redux imports
-import configureStore from './store/configureStore'
-import {addExpense, removeExpense, editExpense} from './actions/expenses'
-import {setTextFilter, setStartDate, setEndDate, sortByDate, sortByAmount} from './actions/filters'
-import getVisibleExpenses from './selectors/expenses'
+import { Provider } from 'react-redux';
+import configureStore from './store/configureStore';
+import {addExpense, removeExpense, editExpense} from './actions/expenses';
+import {setTextFilter, setStartDate, setEndDate, sortByDate, sortByAmount} from './actions/filters';
+import getVisibleExpenses from './selectors/expenses';
 //scss imports
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
@@ -24,6 +25,16 @@ store.dispatch(addExpense({description: 'Water Bill', amount:247}));
 store.dispatch(addExpense({description: 'Gas Bill', amount:114}));
 store.dispatch(setTextFilter('gas'))
 
+setTimeout(() => {
+  store.dispatch(setTextFilter('water'))
+}, 3000);
+
 // console.log(store.getState());
 
-ReactDOM.render(<AppRouter/>, document.getElementById('app'));
+const jsx = (
+  <Provider store={store}>
+    <AppRouter />
+  </Provider>
+);
+
+ReactDOM.render(jsx, document.getElementById('app'));
