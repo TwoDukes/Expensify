@@ -23,11 +23,7 @@ store.subscribe(() => {
 
 store.dispatch(addExpense({description: 'Water Bill', amount:247}));
 store.dispatch(addExpense({description: 'Gas Bill', amount:114}));
-store.dispatch(setTextFilter('gas'))
-
-setTimeout(() => {
-  store.dispatch(setTextFilter('water'))
-}, 3000);
+store.dispatch(setTextFilter('bill'));
 
 // console.log(store.getState());
 
