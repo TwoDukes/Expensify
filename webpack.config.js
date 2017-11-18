@@ -2,7 +2,7 @@ const path = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 
 module.exports = {
-  entry: './src/app.js',
+  entry: './src/playground/hoc.js',
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js'
