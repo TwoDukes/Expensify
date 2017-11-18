@@ -15,17 +15,15 @@ import './styles/styles.scss';
 //initialize store
 const store = configureStore();
 
-//getvisibleexpenses -> print visible to screen
+//getVisibleExpenses -> print visible to screen
 store.subscribe(() => {
   const state = store.getState();
   console.log(getVisibleExpenses(state.expenses, state.filters));
 })
 
-store.dispatch(addExpense({description: 'Water Bill', amount:247}));
-store.dispatch(addExpense({description: 'Gas Bill', amount:114}));
-store.dispatch(setTextFilter('bill'));
-
-// console.log(store.getState());
+store.dispatch(addExpense({description: 'Water Bill', amount:4500}));
+store.dispatch(addExpense({description: 'Gas Bill', createdAt:1000}));
+store.dispatch(addExpense({description: 'rent', amount:109500}));
 
 const jsx = (
   <Provider store={store}>
