@@ -11,10 +11,12 @@ const EditExpensePage = (props) => {
       <ExpenseForm 
       expense={props.expense}
       onSubmit={(expense) => {
+        //Send edited expense to store
         props.dispatch(editExpense(props.expense.id, expense));
         props.history.push('/');
       }}/>
       <button onClick={() => {
+        //Remove expense from store
         props.dispatch(removeExpense(props.expense.id));
         props.history.push('/');
       }}>Remove Expense</button>
@@ -22,7 +24,7 @@ const EditExpensePage = (props) => {
   )
 };
 
-//find expense in store with id of url param
+//find expense in store with id in url param
 const mapStateToProps = (state, props) => ({
   expense: state.expenses.find((expense) => (expense.id === props.match.params.id))
 });
