@@ -6,15 +6,21 @@ import 'react-dates/lib/css/_datepicker.css'
 
 export default class ExpenseForm extends React.Component {
 
+  constructor(props){
+    super(props);
+
   //setup local state
-  state = {
-    description: '',
-    amount: '',
-    note: '',
-    createdAt: moment(),
-    calenderFocused: false,
-    error: ''
+    this.state = {
+      description: props.expense ? props.expense.description : '',
+      amount: props.expense ? (props.expense.amount/100).toString() : '',
+      note: props.expense ? props.expense.note : '',
+      createdAt: props.expense ? moment(props.expense.createdAt) : moment(),
+      expenseButton: props.expense ? 'Update Expense' : 'Add Expense',
+      calenderFocused: false,
+      error: ''
+    }
   }
+
 
   //changes description in local state
   onDescriptionChange = (e) => {
@@ -96,7 +102,7 @@ export default class ExpenseForm extends React.Component {
             onChange={this.onNoteChange}
           >
           </textarea>
-          <button>Add Expense</button>
+          <button>{this.state.expenseButton}</button>
         </form>
       </div>
     );
