@@ -13,9 +13,9 @@ export const addExpense = (
   expense: {
     id: uuid(),
     description,
-    note,
     amount, 
-    createdAt
+    createdAt,
+    note
   }
 });
 // REMOVE_EXPENSE
