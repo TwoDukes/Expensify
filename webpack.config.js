@@ -1,5 +1,4 @@
 const path = require('path');
-const DashboardPlugin = require('webpack-dashboard/plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = (env) => {
@@ -43,7 +42,6 @@ module.exports = (env) => {
       historyApiFallback: true
     }, 
     plugins: [
-      new DashboardPlugin(),
       CSSExtract
     ]
   };
