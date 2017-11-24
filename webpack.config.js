@@ -1,8 +1,10 @@
 const path = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = (env) => {
   const isProduction = env === 'production';
+  const CSSExtract = new ExtractTextPlugin('styles.css');
 
   return {
     entry: './src/app.js',
@@ -17,19 +19,22 @@ module.exports = (env) => {
         exclude: /node_modules/ //except the ones in node modules
       }, {
         test: /\.s?css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-        ]
+        use: CSSExtract.extract({
+          'use': [
+            'css-loader',
+            'sass-loader'
+          ]
+        })
       }]
     },
     devtool: isProduction ? 'source-map' :'cheap-module-source-map',
     devServer: {
       contentBase: path.join(__dirname, 'public'),
       historyApiFallback: true
-    }, plugins: [
-      new DashboardPlugin()
+    }, 
+    plugins: [
+      new DashboardPlugin(),
+      CSSExtract
     ]
   };
   
