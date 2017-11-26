@@ -1,4 +1,6 @@
+//This component may be removed
 import React from 'react';
+
 
 const HelpPage = () => (
   <div>

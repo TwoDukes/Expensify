@@ -37,6 +37,7 @@ export default class ExpenseForm extends React.Component {
   //if amount fits format set state and show value
   onAmountChange = (e) => {
     const amount = e.target.value;
+    //RegEx: has any amount of numbers until '.' then only 2 more numbers allowed
     if(!amount || amount.match(/^\d+(\.)?\d{0,2}$/)){
       this.setState(() => ({ amount }));
     }

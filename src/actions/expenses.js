@@ -11,10 +11,10 @@ export const addExpense = (
 ) => ({
   type: 'ADD_EXPENSE',
   expense: {
-    id: uuid(),
+    id: uuid(), //Every expense id is unique
     description,
     amount, 
-    createdAt,
+    createdAt, 
     note
   }
 });
