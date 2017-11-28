@@ -14,23 +14,22 @@
 
   const database = firebase.database();
 
-  database.ref().set({
-    name: "Dustin Podell",
-    age: 21,
-    isSingle: false,
-    location: {
-      city: 'Los Angeles',
-      country: 'USA'
-    }
-  });
+  // database.ref().set({
+  //   name: "Dustin Podell",
+  //   age: 21,
+  //   isSingle: false,
+  //   location: {
+  //     city: 'Los Angeles',
+  //     country: 'USA'
+  //   }
+  // });
 
-  //database.ref().set('This is my data');
+  // //database.ref().set('This is my data');
 
-  database.ref('age').set(27);
-  database.ref('location/city').set('Northridge');
+  // database.ref('age').set(27);
+  // database.ref('location/city').set('Northridge');
 
-  database.ref('attributes').set({
-    height: 75,
-    weight: 240
-  });
-  
+  // database.ref('attributes').set({
+  //   height: 75,
+  //   weight: 240
+  // });
