@@ -1,3 +1,4 @@
+//React Imports
 import React from 'react';
 import ReactDOM from 'react-dom';
 //Router import
@@ -8,6 +9,8 @@ import configureStore from './store/configureStore';
 import {addExpense, removeExpense, editExpense} from './actions/expenses';
 import {setTextFilter, setStartDate, setEndDate, sortByDate, sortByAmount} from './actions/filters';
 import getVisibleExpenses from './selectors/expenses';
+//Firebase Import
+import './firebase/firebase';
 //scss imports
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
