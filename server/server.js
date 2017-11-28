@@ -9,7 +9,7 @@ app.use(express.static(publicPath))
 
 //setup express for client-side routing
 app.get('*', (req, res) => {
-  res.sendfile(path.join(publicPath, 'index.html'))
+  res.sendFile(path.join(publicPath, 'index.html'))
 });
 
 app.listen(port, () => {
