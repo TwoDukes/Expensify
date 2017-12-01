@@ -18,7 +18,7 @@ export const startAddExpense = (expenseData) => {
     } = expenseData
 
     const expense = { description, note, amount, createdAt};
-    
+    //Send new expense to firebase, then dispatch to local store
     database.ref('expenses').push(expense).then((ref) => {
       dispatch(addExpense({
         id: ref.key,
