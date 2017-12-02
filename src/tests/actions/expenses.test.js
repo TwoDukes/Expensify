@@ -1,5 +1,6 @@
 import {addExpense, editExpense, removeExpense} from '../../actions/expenses';
 import { Number } from 'core-js/library/web/timers';
+import expenses from '../fixtures/expenses';
 
 test('Should setup remove expense action object', () => {
   const action = removeExpense('123abc');
@@ -19,33 +20,27 @@ test('Should setup edit expense action object', () => {
 });
 
 test('should setup add expense object', () => {
-  const expenseData = {
-    description:'Some Description', 
-    note:'A good looking note',
-    amount:12345,
-    createdAt:54321
-  };
-  const action = addExpense(expenseData);
+  const action = addExpense(expenses[2]);
   expect(action).toEqual({ 
     type: 'ADD_EXPENSE',
     expense: {
-      ...expenseData,
+      ...expenses[2],
       id: expect.any(String)
     }
   })
 })
 
-test('should setup add expense object with default values', () => {
-  const action = addExpense();
-  expect(action).toEqual({
-    type: 'ADD_EXPENSE',
-    expense: {
-      id: expect.any(String),
-      description:'', 
-      note:'',
-      amount:0,
-      createdAt:0
-    }
-  })
-})
+// test('should setup add expense object with default values', () => {
+//   const action = addExpense();
+//   expect(action).toEqual({
+//     type: 'ADD_EXPENSE',
+//     expense: {
+//       id: expect.any(String),
+//       description:'', 
+//       note:'',
+//       amount:0,
+//       createdAt:0
+//     }
+//   })
+// })
   
