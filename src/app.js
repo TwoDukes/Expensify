@@ -6,7 +6,7 @@ import AppRouter from './routers/AppRouter';
 //Redux imports
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
-import {addExpense, removeExpense, editExpense} from './actions/expenses';
+import {addExpense, removeExpense, editExpense, startSetExpenses, startAddExpense} from './actions/expenses';
 import {setTextFilter, setStartDate, setEndDate, sortByDate, sortByAmount} from './actions/filters';
 import getVisibleExpenses from './selectors/expenses';
 //Firebase Import
@@ -25,4 +25,8 @@ const jsx = (
   </Provider>
 );
 
-ReactDOM.render(jsx, document.getElementById('app'));
+ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
+
+store.dispatch(startSetExpenses()).then(() => {
+  ReactDOM.render(jsx, document.getElementById('app'));
+});

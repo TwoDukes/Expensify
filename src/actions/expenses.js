@@ -39,3 +39,31 @@ export const editExpense = (id, updates) => ({
   id,
   updates
 });
+
+// SET_EXPENSES
+export const setExpenses = (expenses) => ({
+  type: 'SET_EXPENSES',
+  expenses
+});
+
+export const startSetExpenses = (storedExpenses) => {
+  return (dispatch) => {
+    //get all expenses on database
+    return database.ref('expenses').once('value').then((snapshot) => {
+      const tempExpenses = [];
+      
+      //parse the expenses into an array
+      snapshot.forEach(childSnapshot => {
+        tempExpenses.push({
+            id: childSnapshot.key,
+             ...childSnapshot.val()
+          });
+        });
+        
+        //set the expenses to the local redux state
+        dispatch(setExpenses(tempExpenses));
+    });
+
+
+  };
+};

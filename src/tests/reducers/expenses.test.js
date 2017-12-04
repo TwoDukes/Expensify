@@ -65,3 +65,24 @@ test('Should not edit expense if expense not found', () => {
   const state = expensesReducer(expenses, action);
   expect(state).toEqual(expenses);
 });
+
+test('should set expenses', () => {
+  const action = {
+    type: 'SET_EXPENSES',
+    expenses
+  }
+
+  //adding random expenses to state
+  expensesReducer(expenses, {
+    type: 'ADD_EXPENSE',
+    expense:{
+      id: '4',
+      description: 'Gas',
+      amount: 1500,
+      createdAt: 345678
+    }});
+
+  //sets new state of expenses, should delete previous
+  const state = expensesReducer(expenses, action);
+  expect(state).toEqual(expenses);
+});
