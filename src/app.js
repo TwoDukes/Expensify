@@ -11,6 +11,7 @@ import {setTextFilter, setStartDate, setEndDate, sortByDate, sortByAmount} from 
 import getVisibleExpenses from './selectors/expenses';
 //Firebase Import
 import './firebase/firebase';
+import { firebase, GoogleAuthProvider} from './firebase/firebase'
 //scss imports
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
@@ -29,4 +30,12 @@ ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
 
 store.dispatch(startSetExpenses()).then(() => {
   ReactDOM.render(jsx, document.getElementById('app'));
+});
+
+firebase.auth().onAuthStateChanged((user) => {
+  if(user){
+    console.log('Logged in');    
+  }else {
+    console.log('Logged out');
+  }
 });
