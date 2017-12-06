@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setTextFilter, sortByAmount, sortByDate, setEndDate, setStartDate } from '../actions/filters';
-import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
@@ -33,7 +32,7 @@ export class ExpenseListFilters extends React.Component{
 
   render(){
     return (
-      <div>
+      <div className='content-container'>
         <input type='text' value={this.props.filters.text} onChange={this.onTextChange}/>
         <select 
         value={this.props.filters.sortBy}
