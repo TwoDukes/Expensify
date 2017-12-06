@@ -15,7 +15,29 @@
   const database = firebase.database();
   const GoogleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
-  export { firebase, GoogleAuthProvider, database as default }
+  //FB LOOGIN SETUP
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1943760019217994',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v2.11'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+  const FacebookAuthrovider = new firebase.auth.FacebookAuthProvider();
+
+  export { firebase, GoogleAuthProvider ,FacebookAuthrovider , database as default }
 
 
   //****SOME REFERENCE *******/
