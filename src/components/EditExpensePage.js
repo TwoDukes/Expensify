@@ -3,13 +3,22 @@ import { connect } from 'react-redux';
 import { startRemoveExpense } from '../actions/expenses';
 import { startEditExpense } from '../actions/expenses';
 import ExpenseForm from './ExpenseForm';
+import { CheckModal } from './CheckModal';
 
 export class EditExpensePage extends React.Component {
+
+  state = {
+    checkRemove:false
+  }
 
   onSubmit = (expense) => {
     //Send edited expense to store
     this.props.startEditExpense(this.props.expense.id, expense);
     this.props.history.push('/');
+  }
+
+  OnCheckRemove = () => {
+    this.setState(() => ({checkRemove: true}));
   }
 
   onRemove = () => {
@@ -31,8 +40,14 @@ export class EditExpensePage extends React.Component {
           expense={this.props.expense}
           onSubmit={this.onSubmit}
           />
-          <button className='button button--secondary' onClick={this.onRemove}>Remove Expense</button>
+          <button className='button button--secondary' onClick={this.OnCheckRemove}>Remove Expense</button>
           </div>
+
+          <CheckModal
+            checkRemove={this.state.checkRemove}
+            remove={this.onRemove}
+            cancel={() => {this.setState(() => ({checkRemove: false}));}}
+          />
       </div>
     );
   }
