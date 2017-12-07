@@ -37,7 +37,7 @@ export const startLogin = (provider) => {
       case 'google':
         return firebase.auth().signInWithPopup(GoogleAuthProvider).then((result) => {
           //Success
-        }).catch((e) => linkAccounts(e).then());
+        }).catch((e) => linkAccounts(e));
 
       case 'facebook':
         return firebase.auth().signInWithPopup(FacebookAuthrovider).then((result) => {
