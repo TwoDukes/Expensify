@@ -5,20 +5,63 @@ export const login = (uid) => ({
   uid
 });
 
+const linkAccounts = (error) => {
+// Account exists with different credential. To recover both accounts
+    // have to be linked but the user must prove ownership of the original
+    // account.
+    if (error.code == 'auth/account-exists-with-different-credential') {
+      console.log(error)
+      const existingEmail = error.email;
+      const pendingCred = error.credential;
+      // Lookup existing account’s provider ID.
+      return firebase.auth().fetchProvidersForEmail(error.email)
+        .then(function(providers) {
+           if (providers.indexOf(firebase.auth.EmailAuthProvider.PROVIDER_ID) != -1) {
+             // Password account already exists with the same email.
+             // Ask user to provide password associated with that account.
+             var password = window.prompt('Please provide the password for ' + existingEmail);
+             return firebase.auth().signInWithEmailAndPassword(existingEmail, password);    
+           } else if (providers.indexOf(firebase.auth.GoogleAuthProvider.PROVIDER_ID) != -1) {
+             // Sign in user to Google with same account.
+             GoogleAuthProvider.setCustomParameters({'login_hint': existingEmail});
+             return firebase.auth().signInWithRedirect(GoogleAuthProvider).then(function(result) {
+               return result.user;
+             });
+           } else {
+             
+           }
+        })
+        .then(function(user) {
+          // Existing email/password or Google user signed in.
+          // Link Facebook OAuth credential to existing account.
+          return user.linkWithCredential(pendingCred);
+        });
+    }
+    throw error;
+}
+
+
 export const startLogin = (provider) => {
   return () => {
     switch(provider){
       case 'google':
-        return firebase.auth().signInWithPopup(GoogleAuthProvider);
+        return firebase.auth().signInWithPopup(GoogleAuthProvider).then((result) => {
+          //Success
+        }).catch((e) => linkAccounts(e));
 
       case 'facebook':
-        return firebase.auth().signInWithPopup(FacebookAuthrovider);
+        return firebase.auth().signInWithPopup(FacebookAuthrovider).then((result) => {
+          //Success
+        }).catch((e) => linkAccounts(e));
 
       default: 
-        return firebase.auth().signInWithPopup(FacebookAuthrovider);
+        return firebase.auth().signInWithPopup(FacebookAuthrovider).then((result) => {
+          //Success  
+        }).catch((e) => linkAccounts(e));
     }
   };
 };
+
 
 export const logout = (uid) => ({
   type: 'LOGOUT'
