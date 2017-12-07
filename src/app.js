@@ -26,21 +26,24 @@ const jsx = (
   </Provider>
 );
 
+//App Renders after load
 let hasRendered = false;
-const renderApp = () => {
-  if(!hasRendered){
+const renderApp = (force = false) => {
+  if(!hasRendered || force){
     ReactDOM.render(jsx, document.getElementById('app'));
     hasRendered = true;
   }
 }
 
-ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 
+//handles sending user to correct page on login/logout
 firebase.auth().onAuthStateChanged((user) => {
   if(user){
     store.dispatch(login(user.uid));
+    //Shows loading screen before app loads 
+    ReactDOM.render(<LoadingPage />, document.getElementById('app'));
     store.dispatch(startSetExpenses()).then(() => {
-      renderApp();
+      renderApp(true);
       if(history.location.pathname === '/'){
         history.push('/dashboard');
       }
