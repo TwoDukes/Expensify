@@ -11,25 +11,39 @@ export const ExpenseList = (props) => (
       <div className='show-for-desktop'>Amount</div>
     </div>
     <div className="list-body">
-      {
-        props.expenses.length === 0 ? (
+    {
+      (props.expenseCount === 0 && props.hiddenExpenses === 0) ? (
+        <div className="list-item list-item--message">
+          <span>No expenses</span>
+        </div>
+      ) : (        props.expenses.length === 0 ? (
           <div className="list-item list-item--message">
-            <span>No expenses</span>
+            <span>No expenses found</span>
+            <span>under current search terms</span>
           </div>
         ) : (
           props.expenses.map((expense) => (
           <ExpenseListItem key={expense.id} {...expense} />
           ))
         )
+      )
+    }
+      {
+
       }
     </div>
   </div>
 );
 
 //returns object for current passed in state
-const mapStateToProps = (state) => ({
-    expenses: selectExpenses(state.expenses, state.filters)
-});
+const mapStateToProps = (state) => {
+  const visibleExpenses = selectExpenses(state.expenses, state.filters);
 
+  return  {
+    expenseCount: visibleExpenses.length,
+    expenses: visibleExpenses,
+    hiddenExpenses: state.expenses.length - visibleExpenses.length
+  };
+};
 //connect expense list to redux store
 export default connect(mapStateToProps)(ExpenseList);

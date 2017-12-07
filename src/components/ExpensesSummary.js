@@ -14,7 +14,7 @@ export const ExpensesSummary = ({expenseCount, expenseTotal, hiddenExpenses}) =>
     <div className="content-container">
       <h1 className="page-header__title">Viewing <span>{expenseCount}</span> {visibleExpenseWord} totalling <span>{formatedExpensesTotal}</span></h1>
       {
-        expenseCount === 0 ? (
+        (expenseCount === 0 && hiddenExpenses === 0) ? (
           <span className='page-header__subtitle'></span>
         ) : (
           hiddenExpenses > 0 ? (
@@ -23,8 +23,6 @@ export const ExpensesSummary = ({expenseCount, expenseTotal, hiddenExpenses}) =>
             <span className='page-header__subtitle'>All Expenses Visible</span>
           )
         )
-
-
       }
       <div className='page-header__actions'>
         <Link className='button' to='/create'>Add Expense</Link>
