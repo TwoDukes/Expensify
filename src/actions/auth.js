@@ -1,4 +1,4 @@
-import { firebase, GoogleAuthProvider, FacebookAuthrovider} from '../firebase/firebase';
+import { firebase, setPendingCred, GoogleAuthProvider, FacebookAuthrovider} from '../firebase/firebase';
 
 export const login = (uid) => ({
   type: 'LOGIN',
@@ -10,7 +10,6 @@ const linkAccounts = (error) => {
     // have to be linked but the user must prove ownership of the original
     // account.
     if (error.code == 'auth/account-exists-with-different-credential') {
-      console.log(error)
       const existingEmail = error.email;
       const pendingCred = error.credential;
       // Lookup existing account’s provider ID.
@@ -23,23 +22,14 @@ const linkAccounts = (error) => {
              return firebase.auth().signInWithEmailAndPassword(existingEmail, password);    
            } else if (providers.indexOf(firebase.auth.GoogleAuthProvider.PROVIDER_ID) != -1) {
              // Sign in user to Google with same account.
+             setPendingCred(pendingCred);
              GoogleAuthProvider.setCustomParameters({'login_hint': existingEmail});
-             return firebase.auth().signInWithRedirect(GoogleAuthProvider).then(function(result) {
-               return result.user;
-             });
-           } else {
-             
-           }
+             return firebase.auth().signInWithRedirect(GoogleAuthProvider);
+           } 
         })
-        .then(function(user) {
-          // Existing email/password or Google user signed in.
-          // Link Facebook OAuth credential to existing account.
-          return user.linkWithCredential(pendingCred);
-        });
     }
     throw error;
 }
-
 
 export const startLogin = (provider) => {
   return () => {
@@ -47,7 +37,7 @@ export const startLogin = (provider) => {
       case 'google':
         return firebase.auth().signInWithPopup(GoogleAuthProvider).then((result) => {
           //Success
-        }).catch((e) => linkAccounts(e));
+        }).catch((e) => linkAccounts(e).then());
 
       case 'facebook':
         return firebase.auth().signInWithPopup(FacebookAuthrovider).then((result) => {

@@ -1,5 +1,7 @@
   import * as firebase from 'firebase';
   
+  let pendingCred;
+
   // Initialize Firebase
   var config = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -11,6 +13,8 @@
   };
 
   firebase.initializeApp(config);
+
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
 
   const database = firebase.database();
   const GoogleAuthProvider = new firebase.auth.GoogleAuthProvider();
@@ -36,6 +40,29 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
   const FacebookAuthrovider = new firebase.auth.FacebookAuthProvider();
+
+   export const setPendingCred = (cred) => {
+     window.localStorage.setItem('cred', JSON.stringify(cred));
+   }
+
+  firebase.auth().getRedirectResult().then(function(result) {
+    // Existing email/password or Google user signed in.
+    // Link Facebook OAuth credential to existing account.
+    const pendingCredObj = JSON.parse(window.localStorage.getItem('cred'));
+    window.localStorage.clear();
+
+  if (pendingCredObj.providerId == "facebook.com"){
+      var pendingCredObjProv = firebase.auth.FacebookAuthProvider.credential(pendingCredObj['accessToken']);
+      console.log('fb')
+  } else if (pendingCredObj.providerId == "google.com"){
+    console.log('goog')
+      var pendingCredObjProv = firebase.auth.GoogleAuthProvider.credential('',pendingCredObj['accessToken']);
+  }
+
+  console.log(pendingCredObjProv);
+
+    return result.user.linkWithCredential(pendingCredObjProv);
+  }).catch(() => {});
 
   export { firebase, GoogleAuthProvider ,FacebookAuthrovider , database as default }
 
