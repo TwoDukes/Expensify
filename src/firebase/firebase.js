@@ -53,13 +53,9 @@
 
   if (pendingCredObj.providerId == "facebook.com"){
       var pendingCredObjProv = firebase.auth.FacebookAuthProvider.credential(pendingCredObj['accessToken']);
-      console.log('fb')
   } else if (pendingCredObj.providerId == "google.com"){
-    console.log('goog')
       var pendingCredObjProv = firebase.auth.GoogleAuthProvider.credential('',pendingCredObj['accessToken']);
   }
-
-  console.log(pendingCredObjProv);
 
     return result.user.linkWithCredential(pendingCredObjProv);
   }).catch(() => {});
