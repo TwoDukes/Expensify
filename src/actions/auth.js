@@ -15,12 +15,7 @@ const linkAccounts = (error) => {
       // Lookup existing account’s provider ID.
       return firebase.auth().fetchProvidersForEmail(error.email)
         .then(function(providers) {
-           if (providers.indexOf(firebase.auth.EmailAuthProvider.PROVIDER_ID) != -1) {
-             // Password account already exists with the same email.
-             // Ask user to provide password associated with that account.
-             var password = window.prompt('Please provide the password for ' + existingEmail);
-             return firebase.auth().signInWithEmailAndPassword(existingEmail, password);    
-           } else if (providers.indexOf(firebase.auth.GoogleAuthProvider.PROVIDER_ID) != -1) {
+            if (providers.indexOf(firebase.auth.GoogleAuthProvider.PROVIDER_ID) != -1) {
              // Sign in user to Google with same account.
              setPendingCred(pendingCred);
              GoogleAuthProvider.setCustomParameters({'login_hint': existingEmail});

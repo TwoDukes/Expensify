@@ -30,7 +30,10 @@ exports[`Should render ExpenseList with empty message 1`] = `
       className="list-item list-item--message"
     >
       <span>
-        No expenses
+        No expenses found
+      </span>
+      <span>
+        under current search terms
       </span>
     </div>
   </div>
